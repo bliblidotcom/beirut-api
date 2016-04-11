@@ -1,6 +1,7 @@
 package com.ega.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ega.dto.MahasiswaDTO;
+import com.ega.dto.MahasiswaDetailDTO;
+import com.ega.dto.MatakuliahDTO;
 import com.ega.entities.Mahasiswa;
+import com.ega.entities.MataKuliah;
 import com.ega.services.SimpleCRUD;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdn.common.web.wrapper.response.GdnRestListResponse;
@@ -41,7 +45,26 @@ public class MahasiswaController {
   @Autowired
   private SimpleCRUD simpleCRUD;
 
-  @RequestMapping(value = "deleteMahasiswa", method = RequestMethod.DELETE,
+  @RequestMapping(value = "createNewMahasiswa", method = RequestMethod.POST,
+      produces = {MediaType.APPLICATION_XML_VALUE},
+      consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  @ApiOperation(value = "activate create new mahasiswa value",
+      notes = "api ini akan melakukan create mahasiswa baru dengan parameter yang harus dimasukkan adalah : nama,npm")
+  @ResponseBody
+  public GdnRestSingleResponse<MahasiswaDTO> createNewMahasiswa(@RequestParam String storeId,
+      @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
+      @RequestBody Mahasiswa mahasiswaIn) {
+    Mahasiswa saved = this.simpleCRUD.addNewMahasiswa(mahasiswaIn);
+    MahasiswaDTO result = new MahasiswaDTO();
+    result.setNama(saved.getNama());
+    result.setNpm(saved.getNpm());
+    result.setPrimaryKey(saved.getId());
+    GdnRestSingleResponse<MahasiswaDTO> gdnResult =
+        new GdnRestSingleResponse<MahasiswaDTO>(result, requestId);
+    return gdnResult;
+  }
+
+  @RequestMapping(value = "deleteMahasiswa", method = RequestMethod.POST,
       produces = {MediaType.APPLICATION_XML_VALUE}, consumes = {MediaType.APPLICATION_XML_VALUE})
   @ApiOperation(value = "activate delete mahasiswa value",
       notes = "api ini akan melakukan delete terhadap mahsiswa berdasarkan id")
@@ -96,6 +119,37 @@ public class MahasiswaController {
     md.setNama(target.getNama());
     md.setNpm(target.getNpm());
     return new GdnRestSingleResponse<MahasiswaDTO>(md, requestId);
+  }
+
+  @RequestMapping(value = "getMahasiswaDetail", method = RequestMethod.GET,
+      produces = {MediaType.APPLICATION_XML_VALUE}, consumes = {MediaType.APPLICATION_XML_VALUE})
+  @ApiOperation(value = "activate get mahasiswa detail with its matakuliah signed",
+      notes = "api ini akan mengembalikan satu mahasiswa dengan detail matakuliahnya")
+  @ResponseBody
+  public GdnRestSingleResponse<MahasiswaDetailDTO> getMahasiswaDetail(@RequestParam String storeId,
+      @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
+      @RequestParam Integer id) {
+    Mahasiswa target = this.simpleCRUD.findMahasiswaDetail(id);
+    System.out.println(target.getNama() + " " + target.getNpm());
+    MahasiswaDetailDTO result = new MahasiswaDetailDTO();
+    result.setPrimaryKey(target.getId());
+    result.setNama(target.getNama());
+    result.setNpm(target.getNpm());
+    Iterator<MataKuliah> myItr = target.getMataKuliah().iterator();
+    while (myItr.hasNext()) {
+      MataKuliah now = myItr.next();
+      System.out.println(now.toString());
+      MatakuliahDTO tmp = new MatakuliahDTO();
+      tmp.setPrimaryKey(now.getId());
+      tmp.setKode(now.getKode());
+      tmp.setNama(now.getNama());
+      tmp.setNamaDosen(now.getNamaDosen());
+      tmp.setPrimaryKey(now.getId());
+      result.addMatakuliah(tmp);
+    }
+    GdnRestSingleResponse<MahasiswaDetailDTO> gdnRes =
+        new GdnRestSingleResponse<MahasiswaDetailDTO>(result, requestId);
+    return gdnRes;
   }
 
   @RequestMapping(value = "updateMahasiswa", method = RequestMethod.PATCH,

@@ -94,4 +94,12 @@ public class MataKuliah implements Serializable {
     this.namaDosen = namaDosen;
   }
 
+
+  @Override
+  public String toString() {
+    String res = "Matakuliah info :\n";
+    res += this.id + " " + this.kode + " " + this.nama + " " + this.namaDosen;
+    return res;
+  }
+
 }

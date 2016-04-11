@@ -19,6 +19,13 @@ public class SimpleCRUDService implements SimpleCRUD {
 
   @Override
   @Transactional(readOnly = false)
+  public Mahasiswa addNewMahasiswa(Mahasiswa mahasiswaIn) {
+    Mahasiswa saved = this.mahasiswaDao.save(mahasiswaIn);
+    return saved;
+  }
+
+  @Override
+  @Transactional(readOnly = false)
   public Mahasiswa deleteMahasiswaById(Integer id) {
     Mahasiswa tmp = new Mahasiswa();
     Mahasiswa target = this.mahasiswaDao.findOne(id);
@@ -47,6 +54,7 @@ public class SimpleCRUDService implements SimpleCRUD {
     Mahasiswa mahasiswa = mahasiswaDao.findOne(id);
     System.out.println("ambil relasi mahasiswa");
     Hibernate.initialize(mahasiswa.getMataKuliah());
+    System.out.println("check get matkul hibernate");
     return mahasiswa;
   }
 
