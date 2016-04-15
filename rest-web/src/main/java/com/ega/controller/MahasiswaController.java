@@ -1,9 +1,9 @@
 package com.ega.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ega.dto.MahasiswaDTO;
-import com.ega.dto.MahasiswaDetailDTO;
-import com.ega.dto.MatakuliahDTO;
+import com.ega.dto.request.MahasiswaDTORequest;
+import com.ega.dto.request.MahasiswaDetailDTORequest;
+import com.ega.dto.response.MahasiswaDTOResponse;
+import com.ega.dto.response.MahasiswaDetailDTOResponse;
 import com.ega.entities.Mahasiswa;
-import com.ega.entities.MataKuliah;
+import com.ega.helper.MyObjectMapper;
 import com.ega.services.SimpleCRUD;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdn.common.web.wrapper.response.GdnRestListResponse;
 import com.gdn.common.web.wrapper.response.GdnRestSingleResponse;
 import com.gdn.common.web.wrapper.response.PageMetaData;
@@ -40,7 +40,8 @@ public class MahasiswaController {
   // content type --> consumes
   // accept --> produces
 
-  private ObjectMapper om;
+  @Autowired
+  private Mapper dozerMapper;
 
   @Autowired
   private SimpleCRUD simpleCRUD;
@@ -51,16 +52,21 @@ public class MahasiswaController {
   @ApiOperation(value = "activate create new mahasiswa value",
       notes = "api ini akan melakukan create mahasiswa baru dengan parameter yang harus dimasukkan adalah : nama,npm")
   @ResponseBody
-  public GdnRestSingleResponse<MahasiswaDTO> createNewMahasiswa(@RequestParam String storeId,
-      @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
-      @RequestBody Mahasiswa mahasiswaIn) {
-    Mahasiswa saved = this.simpleCRUD.addNewMahasiswa(mahasiswaIn);
-    MahasiswaDTO result = new MahasiswaDTO();
-    result.setNama(saved.getNama());
-    result.setNpm(saved.getNpm());
-    result.setPrimaryKey(saved.getId());
-    GdnRestSingleResponse<MahasiswaDTO> gdnResult =
-        new GdnRestSingleResponse<MahasiswaDTO>(result, requestId);
+  public GdnRestSingleResponse<MahasiswaDetailDTOResponse> createNewMahasiswa(
+      @RequestParam String storeId, @RequestParam String channelId, @RequestParam String clientId,
+      @RequestParam String requestId, @RequestBody MahasiswaDetailDTORequest mahasiswaIn) {
+    Mahasiswa newMahasiswa = new Mahasiswa();
+    MyObjectMapper.mapMahasiswaDetailDTORequestToEntity(dozerMapper, mahasiswaIn, newMahasiswa);
+    // if (!newMahasiswa.getMataKuliahs().isEmpty() || newMahasiswa.getMataKuliahs() != null) {
+    // for (MataKuliah matkul : newMahasiswa.getMataKuliahs()) {
+    // matkul.setMahasiswa(newMahasiswa);
+    // }
+    // }
+    this.simpleCRUD.addNewMahasiswa(newMahasiswa);
+    MahasiswaDetailDTOResponse mahasiswaOut = new MahasiswaDetailDTOResponse();
+    MyObjectMapper.mapMahasiswaEntityToDetailDTOResponse(dozerMapper, newMahasiswa, mahasiswaOut);
+    GdnRestSingleResponse<MahasiswaDetailDTOResponse> gdnResult =
+        new GdnRestSingleResponse<MahasiswaDetailDTOResponse>(mahasiswaOut, requestId);
     return gdnResult;
   }
 
@@ -69,16 +75,17 @@ public class MahasiswaController {
   @ApiOperation(value = "activate delete mahasiswa value",
       notes = "api ini akan melakukan delete terhadap mahsiswa berdasarkan id")
   @ResponseBody
-  public GdnRestSingleResponse<MahasiswaDTO> deleteMahasiswa(@RequestParam String storeId,
+  public GdnRestSingleResponse<MahasiswaDTOResponse> deleteMahasiswa(@RequestParam String storeId,
       @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
-      @RequestParam Integer id) {
+      @RequestParam String id) {
     Mahasiswa target = this.simpleCRUD.deleteMahasiswaById(id);
-    MahasiswaDTO md = new MahasiswaDTO();
-    md.setPrimaryKey(target.getId());
-    md.setNama(target.getNama());
-    md.setNpm(target.getNpm());
-    GdnRestSingleResponse<MahasiswaDTO> deleted =
-        new GdnRestSingleResponse<MahasiswaDTO>(md, requestId);
+    if (target == null) {
+      return null;
+    }
+    MahasiswaDTOResponse md = new MahasiswaDTOResponse();
+    MyObjectMapper.mapMahasiswaEntityToDTOResponse(dozerMapper, target, md);
+    GdnRestSingleResponse<MahasiswaDTOResponse> deleted =
+        new GdnRestSingleResponse<MahasiswaDTOResponse>(md, requestId);
     return deleted;
   }
 
@@ -87,20 +94,27 @@ public class MahasiswaController {
   @ApiOperation(value = "activate get all mahasiswa value",
       notes = "api ini akan mengembalikan seluruh mahasiswa yang telah terdaftar")
   @ResponseBody
-  public GdnRestListResponse<MahasiswaDTO> getAllMahasiswa(@RequestParam String storeId,
+  public GdnRestListResponse<MahasiswaDTOResponse> getAllMahasiswa(@RequestParam String storeId,
       @RequestParam String channelId, @RequestParam String clientId,
       @RequestParam String requestId) {
     List<Mahasiswa> mahasiswas = this.simpleCRUD.getAllMahasiswa();
-    List<MahasiswaDTO> listMahasiswaDTO = new ArrayList<MahasiswaDTO>();
-    for (int i = 0; i < mahasiswas.size(); i++) {
-      MahasiswaDTO md = new MahasiswaDTO();
-      md.setNama(mahasiswas.get(i).getNama());
-      md.setNpm(mahasiswas.get(i).getNpm());
-      md.setPrimaryKey(mahasiswas.get(i).getId());
-      listMahasiswaDTO.add(md);
+    // System.out.println("Mahasiswas Length: " + mahasiswas.size());
+    List<MahasiswaDTOResponse> mahasiswaOut = new ArrayList<MahasiswaDTOResponse>();
+
+    if (mahasiswas.isEmpty() || mahasiswas == null) {
+      System.out.println("INI NULL");
+      return null;
     }
-    GdnRestListResponse<MahasiswaDTO> gdnMahasiswas = new GdnRestListResponse<MahasiswaDTO>(
-        listMahasiswaDTO, new PageMetaData(10, 0, mahasiswas.size()), requestId);
+    for (Mahasiswa mahasiswa : mahasiswas) {
+      MahasiswaDTOResponse out = new MahasiswaDTOResponse();
+      MyObjectMapper.mapMahasiswaEntityToDTOResponse(dozerMapper, mahasiswa, out);
+      // System.out.println("Out..: ");
+      mahasiswaOut.add(out);
+      // System.out.println("length updt out : " + mahasiswaOut.size());
+    }
+    GdnRestListResponse<MahasiswaDTOResponse> gdnMahasiswas =
+        new GdnRestListResponse<MahasiswaDTOResponse>(mahasiswaOut,
+            new PageMetaData(10, 0, mahasiswas.size()), requestId);
 
     return gdnMahasiswas;
   }
@@ -110,15 +124,16 @@ public class MahasiswaController {
   @ApiOperation(value = "activate get mahasiswa value",
       notes = "api ini akan mengembalikan satu buah mahasiswa dengan id yang diberikan")
   @ResponseBody
-  public GdnRestSingleResponse<MahasiswaDTO> getMahasiswa(@RequestParam String storeId,
+  public GdnRestSingleResponse<MahasiswaDTOResponse> getMahasiswa(@RequestParam String storeId,
       @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
-      @RequestParam Integer id) {
+      @RequestParam String id) {
     Mahasiswa target = this.simpleCRUD.findMahasiswaById(id);
-    MahasiswaDTO md = new MahasiswaDTO();
-    md.setPrimaryKey(target.getId());
-    md.setNama(target.getNama());
-    md.setNpm(target.getNpm());
-    return new GdnRestSingleResponse<MahasiswaDTO>(md, requestId);
+    if (target == null) {
+      return null;
+    }
+    MahasiswaDTOResponse md = new MahasiswaDTOResponse();
+    MyObjectMapper.mapMahasiswaEntityToDTOResponse(dozerMapper, target, md);
+    return new GdnRestSingleResponse<MahasiswaDTOResponse>(md, requestId);
   }
 
   @RequestMapping(value = "getMahasiswaDetail", method = RequestMethod.GET,
@@ -126,29 +141,34 @@ public class MahasiswaController {
   @ApiOperation(value = "activate get mahasiswa detail with its matakuliah signed",
       notes = "api ini akan mengembalikan satu mahasiswa dengan detail matakuliahnya")
   @ResponseBody
-  public GdnRestSingleResponse<MahasiswaDetailDTO> getMahasiswaDetail(@RequestParam String storeId,
-      @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
-      @RequestParam Integer id) {
+  public GdnRestSingleResponse<MahasiswaDetailDTOResponse> getMahasiswaDetail(
+      @RequestParam String storeId, @RequestParam String channelId, @RequestParam String clientId,
+      @RequestParam String requestId, @RequestParam String id) {
     Mahasiswa target = this.simpleCRUD.findMahasiswaDetail(id);
-    System.out.println(target.getNama() + " " + target.getNpm());
-    MahasiswaDetailDTO result = new MahasiswaDetailDTO();
-    result.setPrimaryKey(target.getId());
-    result.setNama(target.getNama());
-    result.setNpm(target.getNpm());
-    Iterator<MataKuliah> myItr = target.getMataKuliah().iterator();
-    while (myItr.hasNext()) {
-      MataKuliah now = myItr.next();
-      System.out.println(now.toString());
-      MatakuliahDTO tmp = new MatakuliahDTO();
-      tmp.setPrimaryKey(now.getId());
-      tmp.setKode(now.getKode());
-      tmp.setNama(now.getNama());
-      tmp.setNamaDosen(now.getNamaDosen());
-      tmp.setPrimaryKey(now.getId());
-      result.addMatakuliah(tmp);
+    if (target == null) {
+      return null;
     }
-    GdnRestSingleResponse<MahasiswaDetailDTO> gdnRes =
-        new GdnRestSingleResponse<MahasiswaDetailDTO>(result, requestId);
+    // System.out.println(target.getNama() + " " + target.getNpm());
+    MahasiswaDetailDTOResponse result = new MahasiswaDetailDTOResponse();
+    MyObjectMapper.mapMahasiswaEntityToDetailDTOResponse(dozerMapper, target, result);
+
+    // result.setPrimaryKey(target.getId());
+    // result.setNama(target.getNama());
+    // result.setNpm(target.getNpm());
+    // Iterator<MataKuliah> myItr = target.getMataKuliah().iterator();
+    // while (myItr.hasNext()) {
+    // MataKuliah now = myItr.next();
+    // System.out.println(now.toString());
+    // MatakuliahDTOResponse tmp = new MatakuliahDTOResponse();
+    // tmp.setPrimaryKey(now.getId());
+    // tmp.setKode(now.getKode());
+    // tmp.setNama(now.getNama());
+    // tmp.setNamaDosen(now.getNamaDosen());
+    // tmp.setPrimaryKey(now.getId());
+    // result.addMatakuliah(tmp);
+    // }
+    GdnRestSingleResponse<MahasiswaDetailDTOResponse> gdnRes =
+        new GdnRestSingleResponse<MahasiswaDetailDTOResponse>(result, requestId);
     return gdnRes;
   }
 
@@ -158,17 +178,18 @@ public class MahasiswaController {
   @ApiOperation(value = "activate update mahasiswa by Id value",
       notes = "api ini akan mengupdate value mahasiswa berdasarkan id yang diberikan")
   @ResponseBody
-  public GdnRestSingleResponse<MahasiswaDTO> updateMahasiswa(@RequestParam String storeId,
+  public GdnRestSingleResponse<MahasiswaDTOResponse> updateMahasiswa(@RequestParam String storeId,
       @RequestParam String channelId, @RequestParam String clientId, @RequestParam String requestId,
-      @RequestParam Integer id, @RequestBody Mahasiswa mahasiswaIn) {
+      @RequestParam String id, @RequestBody MahasiswaDTORequest mahasiswaIn) {
     Mahasiswa mahasiswa = this.simpleCRUD.findMahasiswaById(id);
-    mahasiswa.setNama(mahasiswaIn.getNama());
-    mahasiswa.setNpm(mahasiswaIn.getNpm());
+    if (mahasiswa == null) {
+      return null;
+    }
+    MyObjectMapper.mapMahasiswaDTORequestToEntity(dozerMapper, mahasiswaIn, mahasiswa);
     this.simpleCRUD.saveMahasiswa(mahasiswa);
-    MahasiswaDTO updatedMahasiswaDTO = new MahasiswaDTO();
-    updatedMahasiswaDTO.setNama(mahasiswa.getNama());
-    updatedMahasiswaDTO.setNpm(mahasiswa.getNpm());
-    GdnRestSingleResponse<MahasiswaDTO> gdnUpdatedMahasiswa =
+    MahasiswaDTOResponse updatedMahasiswaDTO = new MahasiswaDTOResponse();
+    MyObjectMapper.mapMahasiswaEntityToDTOResponse(dozerMapper, mahasiswa, updatedMahasiswaDTO);
+    GdnRestSingleResponse<MahasiswaDTOResponse> gdnUpdatedMahasiswa =
         new GdnRestSingleResponse<>(updatedMahasiswaDTO, requestId);
     return gdnUpdatedMahasiswa;
   }

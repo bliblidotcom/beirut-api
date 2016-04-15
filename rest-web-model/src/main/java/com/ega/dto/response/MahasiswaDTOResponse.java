@@ -1,9 +1,9 @@
-package com.ega.dto;
+package com.ega.dto.response;
 
 import com.gdn.common.web.base.BaseResponse;
 
-public class MahasiswaDTO extends BaseResponse {
-  private Integer primaryKey;
+public class MahasiswaDTOResponse extends BaseResponse {
+  private String primaryKey;
 
   private String nama;
 
@@ -17,7 +17,7 @@ public class MahasiswaDTO extends BaseResponse {
     return npm;
   }
 
-  public Integer getPrimaryKey() {
+  public String getPrimaryKey() {
     return primaryKey;
   }
 
@@ -29,7 +29,7 @@ public class MahasiswaDTO extends BaseResponse {
     this.npm = npm;
   }
 
-  public void setPrimaryKey(Integer primaryKey) {
+  public void setPrimaryKey(String primaryKey) {
     this.primaryKey = primaryKey;
   }
 

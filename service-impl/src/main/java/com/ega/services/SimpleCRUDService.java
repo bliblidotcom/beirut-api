@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ega.dao.MahasiswaDao;
 import com.ega.entities.Mahasiswa;
+import com.ega.entities.MataKuliah;
 
 @Service(value = "simpleCRUD")
 @Transactional(readOnly = true)
@@ -25,12 +26,22 @@ public class SimpleCRUDService implements SimpleCRUD {
   }
 
   @Override
+  public Mahasiswa createAndRegisterNewMatakuliahToMahasiswa(Mahasiswa mahasiswaIn,
+      MataKuliah matakuliahIn) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
   @Transactional(readOnly = false)
-  public Mahasiswa deleteMahasiswaById(Integer id) {
+  public Mahasiswa deleteMahasiswaById(String id) {
     Mahasiswa tmp = new Mahasiswa();
     Mahasiswa target = this.mahasiswaDao.findOne(id);
+    if (target == null) {
+      return null;
+    }
     tmp.setId(target.getId());
-    tmp.setMataKuliah(target.getMataKuliah());
+    tmp.setMatakuliahs(target.getMataKuliahs());
     tmp.setNama(target.getNama());
     tmp.setNpm(target.getNpm());
     this.mahasiswaDao.delete(target);
@@ -43,17 +54,17 @@ public class SimpleCRUDService implements SimpleCRUD {
   }
 
   @Override
-  public Mahasiswa findMahasiswaById(Integer id) {
+  public Mahasiswa findMahasiswaById(String id) {
     return getMahasiswaDao().findOne(id);
   }
 
   @Override
   // @Transactional(readOnly = false)
-  public Mahasiswa findMahasiswaDetail(Integer id) {
+  public Mahasiswa findMahasiswaDetail(String id) {
     System.out.println("ambil mahasiswa");
     Mahasiswa mahasiswa = mahasiswaDao.findOne(id);
     System.out.println("ambil relasi mahasiswa");
-    Hibernate.initialize(mahasiswa.getMataKuliah());
+    Hibernate.initialize(mahasiswa.getMataKuliahs());
     System.out.println("check get matkul hibernate");
     return mahasiswa;
   }

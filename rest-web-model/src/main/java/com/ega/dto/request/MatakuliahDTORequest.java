@@ -1,10 +1,16 @@
-package com.ega.dto;
+package com.ega.dto.request;
 
-import com.gdn.common.web.base.BaseResponse;
+import com.ega.dto.response.MahasiswaDTOResponse;
+import com.gdn.common.web.base.BaseRequest;
 
-public class MatakuliahDTO extends BaseResponse {
+public class MatakuliahDTORequest extends BaseRequest {
 
-  private Integer primaryKey;
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1535845237472987908L;
+
+  private String primaryKey;
 
   private String nama;
 
@@ -12,13 +18,13 @@ public class MatakuliahDTO extends BaseResponse {
 
   private String namaDosen;
 
-  private MahasiswaDTO mahasiswa;
+  private MahasiswaDTOResponse mahasiswa;
 
-  public MatakuliahDTO() {
+  public MatakuliahDTORequest() {
     // nothing todo here
   }
 
-  public MatakuliahDTO(String nama, String kode, String namaDosen) {
+  public MatakuliahDTORequest(String nama, String kode, String namaDosen) {
     this.nama = nama;
     this.kode = kode;
     this.namaDosen = namaDosen;
@@ -28,7 +34,7 @@ public class MatakuliahDTO extends BaseResponse {
     return kode;
   }
 
-  public MahasiswaDTO getMahasiswa() {
+  public MahasiswaDTOResponse getMahasiswa() {
     return mahasiswa;
   }
 
@@ -40,7 +46,7 @@ public class MatakuliahDTO extends BaseResponse {
     return namaDosen;
   }
 
-  public Integer getPrimaryKey() {
+  public String getPrimaryKey() {
     return primaryKey;
   }
 
@@ -48,7 +54,7 @@ public class MatakuliahDTO extends BaseResponse {
     this.kode = kode;
   }
 
-  public void setMahasiswa(MahasiswaDTO mahasiswa) {
+  public void setMahasiswa(MahasiswaDTOResponse mahasiswa) {
     this.mahasiswa = mahasiswa;
   }
 
@@ -60,7 +66,7 @@ public class MatakuliahDTO extends BaseResponse {
     this.namaDosen = namaDosen;
   }
 
-  public void setPrimaryKey(Integer primaryKey) {
+  public void setPrimaryKey(String primaryKey) {
     this.primaryKey = primaryKey;
   }
 

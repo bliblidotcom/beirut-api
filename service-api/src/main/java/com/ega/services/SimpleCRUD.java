@@ -14,13 +14,13 @@ public interface SimpleCRUD {
   Mahasiswa createAndRegisterNewMatakuliahToMahasiswa(Mahasiswa mahasiswaIn,
       MataKuliah matakuliahIn);
 
-  Mahasiswa deleteMahasiswaById(Integer id);
+  Mahasiswa deleteMahasiswaById(String id);
 
   Mahasiswa findByNama(String nama);
 
-  Mahasiswa findMahasiswaById(Integer id);
+  Mahasiswa findMahasiswaById(String id);
 
-  Mahasiswa findMahasiswaDetail(Integer id);
+  Mahasiswa findMahasiswaDetail(String id);
 
   List<Mahasiswa> getAllMahasiswa();
 
