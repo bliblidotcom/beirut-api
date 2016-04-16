@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ega.dao.MahasiswaDao;
+import com.ega.dao.MataKuliahDao;
 import com.ega.entities.Mahasiswa;
 import com.ega.entities.MataKuliah;
 
@@ -17,6 +18,9 @@ public class SimpleCRUDService implements SimpleCRUD {
 
   @Autowired
   private MahasiswaDao mahasiswaDao;
+
+  @Autowired
+  private MataKuliahDao matakuliahDao;
 
   @Override
   @Transactional(readOnly = false)
@@ -50,12 +54,12 @@ public class SimpleCRUDService implements SimpleCRUD {
 
   @Override
   public Mahasiswa findByNama(String nama) {
-    return getMahasiswaDao().findByNama(nama);
+    return this.mahasiswaDao.findByNama(nama);
   }
 
   @Override
   public Mahasiswa findMahasiswaById(String id) {
-    return getMahasiswaDao().findOne(id);
+    return this.mahasiswaDao.findOne(id);
   }
 
   @Override
@@ -74,20 +78,40 @@ public class SimpleCRUDService implements SimpleCRUD {
     return this.mahasiswaDao.findAll();
   }
 
-  public MahasiswaDao getMahasiswaDao() {
+  @Override
+  public List<MataKuliah> getAllMataKuliah() {
+    // TODO Auto-generated method stub
+    return this.matakuliahDao.findAll();
+  }
+
+  public MahasiswaDao getMahasiswaDao(String id) {
     return mahasiswaDao;
+  }
+
+  @Override
+  public MataKuliah getMatakuliahDetail(String id) {
+    MataKuliah matkul = this.matakuliahDao.findOne(id);
+    if (matkul == null) {
+      return null;
+    }
+    Hibernate.initialize(matkul.getMahasiswa());
+    return matkul;
   }
 
   @Override
   @Transactional(readOnly = false)
   public void saveMahasiswa(Mahasiswa mahasiswa) {
-    getMahasiswaDao().save(mahasiswa);
+    this.mahasiswaDao.save(mahasiswa);
+  }
+
+  @Override
+  public void saveMatakuliah(MataKuliah matakuliah) {
+    // TODO Auto-generated method stub
+    this.matakuliahDao.save(matakuliah);
   }
 
   public void setMahasiswaDao(MahasiswaDao mahasiswaDao) {
     this.mahasiswaDao = mahasiswaDao;
   }
-
-
 
 }

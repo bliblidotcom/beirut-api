@@ -24,5 +24,11 @@ public interface SimpleCRUD {
 
   List<Mahasiswa> getAllMahasiswa();
 
+  List<MataKuliah> getAllMataKuliah();
+
+  MataKuliah getMatakuliahDetail(String id);
+
   void saveMahasiswa(Mahasiswa mahasiswa);
+
+  void saveMatakuliah(MataKuliah matakuliah);
 }

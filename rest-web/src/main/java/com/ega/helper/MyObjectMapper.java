@@ -6,6 +6,7 @@ import com.ega.dto.request.MahasiswaDTORequest;
 import com.ega.dto.request.MahasiswaDetailDTORequest;
 import com.ega.dto.response.MahasiswaDTOResponse;
 import com.ega.dto.response.MahasiswaDetailDTOResponse;
+import com.ega.dto.response.MatakuliahDTOResponse;
 import com.ega.entities.Mahasiswa;
 import com.ega.entities.MataKuliah;
 
@@ -39,6 +40,13 @@ public class MyObjectMapper {
     dozerMapper.map(source, destination);
     // System.out.println("udah di map: " + destination.getPrimaryKey());
     destination.setPrimaryKey(source.getId());
+  }
+
+  public static void mapMatakuliahEntityToDTOResponse(Mapper dozerMapper, MataKuliah source,
+      MatakuliahDTOResponse destination) {
+    dozerMapper.map(source, destination);
+    destination.setPrimaryKey(source.getId());
+    destination.getMahasiswa().setPrimaryKey(source.getMahasiswa().getId());
   }
 
 }
