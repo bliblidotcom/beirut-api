@@ -12,58 +12,66 @@ import com.gdn.common.base.entity.GdnBaseEntity;
 @Table(name = "Candidate")
 public class Candidate extends GdnBaseEntity {
 
-  public static final String EMAIL_ADDRESS = "EMAIL_ADDRESS";
+  public static final String EMAIL_ADDRESS = "emailaddress";
 
-  public static final String FIRST_NAME = "FIRST_NAME";
+  public static final String FIRST_NAME = "firstname";
 
-  public static final String LAST_NAME = "LAST_NAME";
+  public static final String LAST_NAME = "lastname";
 
-  public static final String PHONE_NUMBER = "PHONE_NUMBER";
+  public static final String PHONE_NUMBER = "phonenumber";
 
   @OneToOne(mappedBy = "Candidate")
-  private CandidateDetail candidateDetail;
+  private CandidateDetail candidatedetail;
 
   @Column(name = Candidate.EMAIL_ADDRESS)
-  private String emailAddress;
+  private String emailaddress;
 
   @Column(name = Candidate.FIRST_NAME)
-  private String firstName;
+  private String firstname;
 
   @Column(name = Candidate.LAST_NAME)
-  private String lastName;
+  private String lastname;
 
   @Column(name = Candidate.PHONE_NUMBER)
-  private String phoneNumber;
+  private String phonenumber;
 
-  public String getEmailAddress() {
-    return emailAddress;
+  public CandidateDetail getCandidatedetail() {
+    return candidatedetail;
   }
 
-  public String getFirstName() {
-    return firstName;
+  public String getEmailaddress() {
+    return emailaddress;
   }
 
-  public String getLastName() {
-    return lastName;
+  public String getFirstname() {
+    return firstname;
   }
 
-  public String getPhoneNumber() {
-    return phoneNumber;
+  public String getLastname() {
+    return lastname;
   }
 
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = emailAddress;
+  public String getPhonenumber() {
+    return phonenumber;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setCandidatedetail(CandidateDetail candidatedetail) {
+    this.candidatedetail = candidatedetail;
   }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setEmailaddress(String emailaddress) {
+    this.emailaddress = emailaddress;
   }
 
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
+
+  public void setPhonenumber(String phonenumber) {
+    this.phonenumber = phonenumber;
   }
 }

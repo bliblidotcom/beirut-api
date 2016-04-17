@@ -8,16 +8,16 @@ import com.gdn.common.base.entity.GdnBaseEntity;
 
 public class CandidateDetail extends GdnBaseEntity {
 
-  public static final String CANDIDATE_ID = "CANDIDATE_ID";
+  public static final String CANDIDATE_ID = "candidate";
 
-  public static final String CONTENT = "CONTENT";
-
-  @Column(name = CandidateDetail.CONTENT)
-  private byte[] content;
+  public static final String CONTENT = "content";
 
   @OneToOne
   @JoinColumn(name = CandidateDetail.CANDIDATE_ID)
-  private Candidate idCandidate;
+  private Candidate candidate;
+
+  @Column(name = CandidateDetail.CONTENT)
+  private byte[] content;
 
   public byte[] getContent() {
     return content;
@@ -25,7 +25,7 @@ public class CandidateDetail extends GdnBaseEntity {
 
 
   public Candidate getIdCandidate() {
-    return idCandidate;
+    return candidate;
   }
 
 
@@ -35,7 +35,7 @@ public class CandidateDetail extends GdnBaseEntity {
 
 
   public void setIdCandidate(Candidate idCandidate) {
-    this.idCandidate = idCandidate;
+    candidate = idCandidate;
   }
 
 }
