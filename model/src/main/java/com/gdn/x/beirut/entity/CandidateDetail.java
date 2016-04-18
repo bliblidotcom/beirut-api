@@ -1,11 +1,14 @@
 package com.gdn.x.beirut.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import com.gdn.common.base.entity.GdnBaseEntity;
-
+@Entity
+@Table(name = "CandidateDetail")
 public class CandidateDetail extends GdnBaseEntity {
 
   public static final String CANDIDATE_ID = "candidate_id";
@@ -25,7 +28,17 @@ public class CandidateDetail extends GdnBaseEntity {
   }
 
 
-  public byte[] getContent() {
+  public Candidate getCandidate() {
+	return candidate;
+  }
+ 
+
+  public void setCandidate(Candidate candidate) {
+	this.candidate = candidate;
+  }
+
+
+public byte[] getContent() {
     return this.content;
   }
 

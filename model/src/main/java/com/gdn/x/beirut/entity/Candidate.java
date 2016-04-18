@@ -1,8 +1,10 @@
 
 package com.gdn.x.beirut.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,8 +22,7 @@ public class Candidate extends GdnBaseEntity {
 
   public static final String PHONE_NUMBER = "phonenumber";
 
-  @Column(name = "candidate_detail")
-  @OneToOne(mappedBy = "candidate")
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "candidate")
   private CandidateDetail candidatedetail;
 
   @Column(name = Candidate.EMAIL_ADDRESS)
