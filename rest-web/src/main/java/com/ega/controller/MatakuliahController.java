@@ -51,13 +51,21 @@ public class MatakuliahController {
     List<MatakuliahDTOResponse> matakuliahOut = new ArrayList<MatakuliahDTOResponse>();
     for (MataKuliah matakuliah : matakuliahs) {
       MatakuliahDTOResponse out = new MatakuliahDTOResponse();
-      MyObjectMapper.mapMatakuliahEntityToDTOResponse(dozerMapper, matakuliah, out);
+      MyObjectMapper.mapMatakuliahEntityToDTOResponse(getDozerMapper(), matakuliah, out);
       matakuliahOut.add(out);
     }
     GdnRestListResponse<MatakuliahDTOResponse> gdnResult =
         new GdnRestListResponse<MatakuliahDTOResponse>(matakuliahOut,
             new PageMetaData(10, 0, matakuliahs.size()), requestId);
     return gdnResult;
+  }
+
+  public Mapper getDozerMapper() {
+    return dozerMapper;
+  }
+
+  public void setDozerMapper(Mapper dozerMapper) {
+    this.dozerMapper = dozerMapper;
   }
 
 }

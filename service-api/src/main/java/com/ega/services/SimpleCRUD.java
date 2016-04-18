@@ -14,7 +14,7 @@ public interface SimpleCRUD {
   Mahasiswa createAndRegisterNewMatakuliahToMahasiswa(Mahasiswa mahasiswaIn,
       MataKuliah matakuliahIn);
 
-  Mahasiswa deleteMahasiswaById(String id);
+  void deleteMahasiswaById(String id) throws Exception;
 
   Mahasiswa findByNama(String nama);
 

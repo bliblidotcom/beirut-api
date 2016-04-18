@@ -5,17 +5,16 @@
 package com.ega.entities;
 
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.gdn.common.base.entity.GdnBaseEntity;
 
 /**
  *
@@ -23,15 +22,14 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "MataKuliah")
-public class MataKuliah implements Serializable {
+public class MataKuliah extends GdnBaseEntity {
 
-  private static final long serialVersionUID = -1311121582151898747L;
+  private static final String STORE_ID = "1";
 
-  @Id
-  @GeneratedValue(generator = "system-uuid")
-  @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-  @Column(name = "ID_MataKuliah")
-  private String id;
+//  @GeneratedValue(generator = "system-uuid")
+//  @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+//  @Column(name = "ID_MataKuliah")
+//  private String id;
 
   @Column(name = "Nama_MataKuliah")
   private String nama;
@@ -48,17 +46,20 @@ public class MataKuliah implements Serializable {
 
   public MataKuliah() {
     // nothing todo here
+    this.setStoreId(STORE_ID);
   }
 
   public MataKuliah(String nama, String kode, String namaDosen) {
     this.nama = nama;
     this.kode = kode;
     this.namaDosen = namaDosen;
+    this.setStoreId(STORE_ID);
   }
 
-  public String getId() {
-    return id;
-  }
+//  @Override
+//  public String getId() {
+//    return id;
+//  }
 
   public String getKode() {
     return kode;
@@ -76,9 +77,10 @@ public class MataKuliah implements Serializable {
     return namaDosen;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+//  @Override
+//  public void setId(String id) {
+//    this.id = id;
+//  }
 
   public void setKode(String kode) {
     this.kode = kode;
@@ -97,11 +99,11 @@ public class MataKuliah implements Serializable {
   }
 
 
-  @Override
-  public String toString() {
-    String res = "Matakuliah info :\n";
-    res += this.id + " " + this.kode + " " + this.nama + " " + this.namaDosen;
-    return res;
-  }
+//  @Override
+//  public String toString() {
+//    String res = "Matakuliah info :\n";
+//    res += this.id + " " + this.kode + " " + this.nama + " " + this.namaDosen;
+//    return res;
+//  }
 
 }

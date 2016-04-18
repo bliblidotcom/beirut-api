@@ -11,6 +11,8 @@ import com.ega.dao.MahasiswaDao;
 import com.ega.dao.MataKuliahDao;
 import com.ega.entities.Mahasiswa;
 import com.ega.entities.MataKuliah;
+import com.gdn.common.enums.ErrorCategory;
+import com.gdn.common.exception.ApplicationException;
 
 @Service(value = "simpleCRUD")
 @Transactional(readOnly = true)
@@ -38,18 +40,13 @@ public class SimpleCRUDService implements SimpleCRUD {
 
   @Override
   @Transactional(readOnly = false)
-  public Mahasiswa deleteMahasiswaById(String id) {
+  public void deleteMahasiswaById(String id) throws Exception {
     Mahasiswa tmp = new Mahasiswa();
     Mahasiswa target = this.mahasiswaDao.findOne(id);
     if (target == null) {
-      return null;
+      throw new ApplicationException(ErrorCategory.DATA_NOT_FOUND);
     }
-    tmp.setId(target.getId());
-    tmp.setMatakuliahs(target.getMataKuliahs());
-    tmp.setNama(target.getNama());
-    tmp.setNpm(target.getNpm());
     this.mahasiswaDao.delete(target);
-    return tmp;
   }
 
   @Override
@@ -84,7 +81,7 @@ public class SimpleCRUDService implements SimpleCRUD {
     return this.matakuliahDao.findAll();
   }
 
-  public MahasiswaDao getMahasiswaDao(String id) {
+  public MahasiswaDao getMahasiswaDao() {
     return mahasiswaDao;
   }
 
