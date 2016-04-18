@@ -20,7 +20,8 @@ public class Candidate extends GdnBaseEntity {
 
   public static final String PHONE_NUMBER = "phonenumber";
 
-  @OneToOne(mappedBy = "Candidate")
+  @Column(name = "candidate_detail")
+  @OneToOne(mappedBy = "candidate")
   private CandidateDetail candidatedetail;
 
   @Column(name = Candidate.EMAIL_ADDRESS)
@@ -35,24 +36,29 @@ public class Candidate extends GdnBaseEntity {
   @Column(name = Candidate.PHONE_NUMBER)
   private String phonenumber;
 
+  public Candidate(String STORE_ID) {
+    super();
+    this.setStoreId(STORE_ID);
+  }
+
   public CandidateDetail getCandidatedetail() {
-    return candidatedetail;
+    return this.candidatedetail;
   }
 
   public String getEmailaddress() {
-    return emailaddress;
+    return this.emailaddress;
   }
 
   public String getFirstname() {
-    return firstname;
+    return this.firstname;
   }
 
   public String getLastname() {
-    return lastname;
+    return this.lastname;
   }
 
   public String getPhonenumber() {
-    return phonenumber;
+    return this.phonenumber;
   }
 
   public void setCandidatedetail(CandidateDetail candidatedetail) {
