@@ -1,5 +1,5 @@
 
-package com.gdn.x.beirut.entity;
+package com.gdn.x.beirut.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

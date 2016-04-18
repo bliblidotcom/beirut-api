@@ -20,9 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {"com.gdn.x.beirut.dao"})
 @EnableJpaAuditing
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.gdn.x.beirut.entity"})
+@ComponentScan(basePackages = {"com.gdn.x.beirut.entities"})
 public class TestConfig {
-
   @Bean
   DataSource dataSource() {
     return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build();
@@ -30,37 +29,32 @@ public class TestConfig {
 
   @Bean
   LocalContainerEntityManagerFactoryBean entityManagerFactory() throws Exception {
-    final LocalContainerEntityManagerFactoryBean entityManagerFactory =
+    LocalContainerEntityManagerFactoryBean entityManagerFactory =
         new LocalContainerEntityManagerFactoryBean();
     entityManagerFactory.setDataSource(this.dataSource());
     entityManagerFactory.setJpaVendorAdapter(this.jpaVendorAdapter());
-    entityManagerFactory.setPackagesToScan(new String[] {"com.gdn.x.beirut.entity"});
+    entityManagerFactory.setPackagesToScan(new String[] {"com.gdn.x.beirut.entities"});
     return entityManagerFactory;
   }
 
   @Bean
   HibernateJpaDialect jpaDialect() {
-    final HibernateJpaDialect jpaDialect = new HibernateJpaDialect();
+    HibernateJpaDialect jpaDialect = new HibernateJpaDialect();
     return jpaDialect;
   }
 
   @Bean
   HibernateJpaVendorAdapter jpaVendorAdapter() {
-    final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-    jpaVendorAdapter.setDatabase(Database.H2);
+    HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+    jpaVendorAdapter.setDatabase(Database.MYSQL);
     jpaVendorAdapter.setGenerateDdl(true);
     jpaVendorAdapter.setShowSql(true);
     return jpaVendorAdapter;
   }
 
-  // @Bean
-  // NamedParameterJdbcOperations namedJdbcTemplate() {
-  // return new NamedParameterJdbcTemplate(this.dataSource());
-  // }
-
   @Bean
   JpaTransactionManager transactionManager() throws Exception {
-    final JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+    JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
     jpaTransactionManager.setDataSource(this.dataSource());
     jpaTransactionManager.setJpaDialect(this.jpaDialect());
     return jpaTransactionManager;

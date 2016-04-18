@@ -16,8 +16,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.gdn.x.beirut.entity.Candidate;
-import com.gdn.x.beirut.entity.CandidateDetail;
+import com.gdn.x.beirut.entities.Candidate;
+import com.gdn.x.beirut.entities.CandidateDetail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class})

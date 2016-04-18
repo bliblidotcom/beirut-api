@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.gdn.x.beirut.entity.Candidate;
+import com.gdn.x.beirut.entities.Candidate;
 
 
 public interface CandidateDAO extends JpaRepository<Candidate, String> {
