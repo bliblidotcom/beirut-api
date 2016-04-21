@@ -17,10 +17,10 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.ega.dao"})
+@EnableJpaRepositories(basePackages = {"com.gdn.x.beirut.dao"})
 @EnableJpaAuditing
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.ega.entities"})
+@ComponentScan(basePackages = {"com.gdn.x.beirut.entities"})
 public class TestConfig {
   @Bean
   DataSource dataSource() {
@@ -33,7 +33,7 @@ public class TestConfig {
         new LocalContainerEntityManagerFactoryBean();
     entityManagerFactory.setDataSource(this.dataSource());
     entityManagerFactory.setJpaVendorAdapter(this.jpaVendorAdapter());
-    entityManagerFactory.setPackagesToScan(new String[] {"com.ega.entities"});
+    entityManagerFactory.setPackagesToScan(new String[] {"com.gdn.x.beirut.entities"});
     return entityManagerFactory;
   }
 
