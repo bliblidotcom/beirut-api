@@ -1,6 +1,6 @@
 package com.gdn.x.beirut.services;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +21,21 @@ public class CandidateServiceImpl implements CandidateService {
   CandidateDAO candidateDao;
 
   @Override
-  public List<Candidate> findCandidateByEmailAddress(String emailAddress) {
+  public List<Candidate> searchCandidateByEmailAddress(String emailAddress) {
     // TODO Auto-generated method stub
-    return null;
+    return this.candidateDao.findByEmailaddress(emailAddress);
   }
 
   @Override
-  public List<Candidate> findCandidateByPhoneNumber(String phoneNumber) {
+  public List<Candidate> searchCandidateByPhoneNumber(String phoneNumber) {
     // TODO Auto-generated method stub
-    return null;
+    return this.candidateDao.findByPhonenumber(phoneNumber);
   }
-
+  @Override
+  public List<Candidate> searchCandidateByPhoneNumberLike(String phoneNumber) {
+    // TODO Auto-generated method stub
+    return this.candidateDao.findByPhonenumberLike(phoneNumber);
+  }
   @Override
   public List<Candidate> getAllCandidates() {
     return this.candidateDao.findAll();
@@ -76,19 +80,21 @@ public class CandidateServiceImpl implements CandidateService {
   }
 
   @Override
+  public List<Candidate> searchByCreatedDateBetween(Date start, Date end) {
+    // TODO Auto-generated method stub
+    return this.candidateDao.findByCreatedDateBetween(start, end);
+  }
+
+  @Override
   public List<Candidate> searchByFirstname(String firstname) {
     // TODO Auto-generated method stub
-    List<Candidate> candidates = new ArrayList<Candidate>();
-    candidates = this.candidateDao.findByFirstnameLike(firstname);
-    return candidates;
+    return this.candidateDao.findByFirstnameLike(firstname);
   }
 
   @Override
   public List<Candidate> searchByLastname(String lastname) {
     // TODO Auto-generated method stub
-    List<Candidate> candidates = new ArrayList<Candidate>();
-    candidates = this.candidateDao.findByLastnameLike(lastname);
-    return candidates;
+    return this.candidateDao.findByLastnameLike(lastname);
   }
 
   @Override
