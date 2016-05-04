@@ -3,43 +3,43 @@ package com.gdn.x.beirut.dto.response;
 import com.gdn.common.web.base.BaseResponse;
 
 public class CandidateDTOResponse extends BaseResponse{
-  public String EMAIL_ADDRESS;
+  public String emailaddress;
 
-  public String FIRST_NAME;
+  public String firstname;
 
-  public String LAST_NAME;
+  public String lastname;
 
-  public String PHONE_NUMBER;
+  public String phonenumber;
 
-  public String getEMAIL_ADDRESS() {
-    return EMAIL_ADDRESS;
+  public String getEmailaddress() {
+    return emailaddress;
   }
 
-  public String getFIRST_NAME() {
-    return FIRST_NAME;
+  public String getFirstname() {
+    return firstname;
   }
 
-  public String getLAST_NAME() {
-    return LAST_NAME;
+  public String getLastname() {
+    return lastname;
   }
 
-  public String getPHONE_NUMBER() {
-    return PHONE_NUMBER;
+  public String getPhonenumber() {
+    return phonenumber;
   }
 
-  public void setEMAIL_ADDRESS(String eMAIL_ADDRESS) {
-    EMAIL_ADDRESS = eMAIL_ADDRESS;
+  public void setEmailaddress(String emailaddress) {
+    this.emailaddress = emailaddress;
   }
 
-  public void setFIRST_NAME(String fIRST_NAME) {
-    FIRST_NAME = fIRST_NAME;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
-  public void setLAST_NAME(String lAST_NAME) {
-    LAST_NAME = lAST_NAME;
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
   }
 
-  public void setPHONE_NUMBER(String pHONE_NUMBER) {
-    PHONE_NUMBER = pHONE_NUMBER;
+  public void setPhonenumber(String phonenumber) {
+    this.phonenumber = phonenumber;
   }
 }
