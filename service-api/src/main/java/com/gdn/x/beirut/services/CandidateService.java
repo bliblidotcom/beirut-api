@@ -8,6 +8,8 @@ import com.gdn.x.beirut.entities.CandidateDetail;
 public interface CandidateService {
   List<Candidate> findCandidateByEmailAddress(String emailAddress);
 
+  Candidate findCandidateById(String id);
+
   List<Candidate> findCandidateByPhoneNumber(String phoneNumber);
 
   List<Candidate> getAllCandidates();
@@ -16,7 +18,7 @@ public interface CandidateService {
 
   CandidateDetail getCandidateDetail(String id) throws Exception;
 
-  void markForDelete(String id);
+  List<Candidate> markForDelete(List<String> id);
 
   Candidate save(Candidate candidate);
 

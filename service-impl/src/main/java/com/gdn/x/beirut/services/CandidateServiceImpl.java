@@ -22,21 +22,24 @@ public class CandidateServiceImpl implements CandidateService {
 
   @Override
   public List<Candidate> findCandidateByEmailAddress(String emailAddress) {
-    // TODO Auto-generated method stub
-    return null;
+    return this.candidateDao.findByEmailaddress(emailAddress);
+  }
+
+  @Override
+  public Candidate findCandidateById(String id) {
+    return this.candidateDao.findOne(id);
   }
 
   @Override
   public List<Candidate> findCandidateByPhoneNumber(String phoneNumber) {
-    // TODO Auto-generated method stub
-    return null;
+    return this.candidateDao.findByPhonenumber(phoneNumber);
   }
+
 
   @Override
   public List<Candidate> getAllCandidates() {
     return this.candidateDao.findAll();
   }
-
 
   @Override
   public Candidate getCandidate(String id) throws Exception {
@@ -62,11 +65,15 @@ public class CandidateServiceImpl implements CandidateService {
 
   @Override
   @Transactional(readOnly = false)
-  public void markForDelete(String id) {
-    // TODO Auto-generated method stub
-    final Candidate candidate = this.candidateDao.findOne(id);
-    candidate.setMarkForDelete(true);
-    this.candidateDao.save(candidate);
+  public List<Candidate> markForDelete(List<String> id) {
+    List<Candidate> candidates = new ArrayList<Candidate>();
+    for (int i = 0; i < id.size(); i++) {
+      final Candidate candidate = this.candidateDao.findOne(id.get(i));
+      candidate.setMarkForDelete(true);
+      candidates.add(candidate);
+      this.candidateDao.save(candidate);
+    }
+    return candidates;
   }
 
   @Override
