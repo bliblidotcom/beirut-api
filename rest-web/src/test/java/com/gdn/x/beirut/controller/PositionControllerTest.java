@@ -23,7 +23,7 @@ import com.gdn.x.beirut.dto.request.PositionDTORequest;
 import com.gdn.x.beirut.entities.CandidatePosition;
 import com.gdn.x.beirut.entities.Position;
 import com.gdn.x.beirut.services.PositionService;
-import com.gdn.x.beirut.services.PositionServiceImplementation;
+import com.gdn.x.beirut.services.PositionServiceImpl;
 
 public class PositionControllerTest {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -48,7 +48,7 @@ public class PositionControllerTest {
 
       this.controller.setDozerMapper(dm);
       this.mockMVC= standaloneSetup(this.controller).build();
-      this.service=new PositionServiceImplementation();
+      this.service=new PositionServiceImpl();
   }
 
   //belum berhasil.
