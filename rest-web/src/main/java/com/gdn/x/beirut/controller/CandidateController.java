@@ -37,10 +37,10 @@ public class CandidateController {
   public GdnRestSingleResponse<CandidateDTOResponse> findCandidateById(@RequestParam String clientId, @RequestParam String storeId,
       @RequestParam String requestId, @RequestParam String channelId, @RequestParam String username, @RequestParam String id) throws Exception{
     Candidate candidate = this.candidateService.getCandidate(id);
-    CandidateDTOResponse candres = new CandidateDTOResponse();
-    dozerMapper.map(candidate, candres);
+    CandidateDTOResponse candidateDTOReponse = new CandidateDTOResponse();
+    dozerMapper.map(candidate, candidateDTOReponse);
 
-    return new GdnRestSingleResponse<CandidateDTOResponse>(candres, requestId);
+    return new GdnRestSingleResponse<CandidateDTOResponse>(candidateDTOReponse, requestId);
   }
 
   @RequestMapping(value = "/api/candidate/findCandidateByPhoneNumber", method= RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = { MediaType.APPLICATION_JSON_VALUE})
@@ -49,9 +49,9 @@ public class CandidateController {
   public GdnRestListResponse<CandidateDTOResponse> findCandidateByPhoneNumber(@RequestParam String clientId, @RequestParam String storeId,
       @RequestParam String requestId, @RequestParam String channelId, @RequestParam String username, @RequestParam String phoneNumber) throws Exception{
     List<Candidate> candidates = this.candidateService.findCandidateByPhoneNumber(phoneNumber);
-    List<CandidateDTOResponse> candres = new ArrayList<CandidateDTOResponse>();
-    dozerMapper.map(candidates, candres);
+    List<CandidateDTOResponse> candidateDTOResponses = new ArrayList<CandidateDTOResponse>();
+    dozerMapper.map(candidates, candidateDTOResponses);
 
-    return new GdnRestListResponse<CandidateDTOResponse>(candres, new PageMetaData(50, 0, candidates.size()), requestId);
+    return new GdnRestListResponse<CandidateDTOResponse>(candidateDTOResponses, new PageMetaData(50, 0, candidates.size()), requestId);
   }
 }

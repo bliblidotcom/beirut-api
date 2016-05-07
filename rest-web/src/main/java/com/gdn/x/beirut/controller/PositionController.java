@@ -107,6 +107,10 @@ public class PositionController {
     return new GdnBaseRestResponse(this.positionService.insertNewPosition(temp));
   }
 
+  public void setDozerMapper(Mapper dm){
+    this.dozerMapper=dm;
+  }
+
   @RequestMapping(value = "/api/position/updatePosition", method = RequestMethod.POST,
       consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
   @ApiOperation(value = "update position", notes = "mengganti posisi.")
