@@ -1,5 +1,6 @@
 package com.gdn.x.beirut.dto.response;
 
+<<<<<<< HEAD
 import java.util.Set;
 
 import com.gdn.common.web.base.BaseResponse;
@@ -19,11 +20,18 @@ public class PositionDTOResponse extends BaseResponse {
   public String getId() {
     return id;
   }
+=======
+import com.gdn.common.web.base.BaseResponse;
+
+public class PositionDTOResponse extends BaseResponse {
+  private String title;
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 
   public String getTitle() {
     return title;
   }
 
+<<<<<<< HEAD
   public boolean isMarkForDelete() {
     return markForDelete;
   }
@@ -41,6 +49,8 @@ public class PositionDTOResponse extends BaseResponse {
     this.markForDelete = markForDelete;
   }
 
+=======
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
   public void setTitle(String title) {
     this.title = title;
   }

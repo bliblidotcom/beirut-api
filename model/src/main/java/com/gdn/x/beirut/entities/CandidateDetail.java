@@ -1,35 +1,48 @@
 package com.gdn.x.beirut.entities;
 
+<<<<<<< HEAD
 import java.util.Arrays;
+=======
+import com.gdn.common.base.entity.GdnBaseEntity;
+
+import java.io.Serializable;
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+<<<<<<< HEAD
 import com.gdn.common.base.entity.GdnBaseEntity;
 
+=======
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 @Entity
-@Table(name = "CandidateDetail")
-public class CandidateDetail extends GdnBaseEntity {
+@Table(name = CandidateDetail.TABLE_NAME)
+public class CandidateDetail implements Serializable {
 
-  public static final String CANDIDATE_ID = "candidate_id";
+  public static final String TABLE_NAME = "candidate_detail";
+  public static final String COLUMN_CONTENT = "content";
 
-  public static final String CONTENT = "content";
+  @Id
+  private String id;
 
-  @OneToOne
-  @JoinColumn(name = CandidateDetail.CANDIDATE_ID)
-  private Candidate candidate;
-
-  @Column(name = CandidateDetail.CONTENT)
+  @Column(name = CandidateDetail.COLUMN_CONTENT)
   private byte[] content;
 
-  public CandidateDetail(String STORE_ID) {
-    super();
-    this.setStoreId(STORE_ID);
+  public CandidateDetail() {
+    //nothing to do here
   }
 
+  public CandidateDetail(Candidate candidate) {
+    this.candidate = candidate;
+  }
+
+<<<<<<< HEAD
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -56,13 +69,30 @@ public class CandidateDetail extends GdnBaseEntity {
 
   public byte[] getContent() {
     return this.content;
+=======
+  @MapsId
+  @OneToOne
+  @JoinColumn(name = GdnBaseEntity.ID)
+  private Candidate candidate;
+
+  public Candidate getCandidate() {
+    return candidate;
   }
 
-
-  public Candidate getIdCandidate() {
-    return this.candidate;
+  public byte[] getContent() {
+    return content;
   }
 
+  public String getId() {
+    return id;
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
+  }
+
+  public void setCandidate(Candidate candidate) {
+    this.candidate = candidate;
+  }
+
+<<<<<<< HEAD
 
   @Override
   public int hashCode() {
@@ -79,13 +109,13 @@ public class CandidateDetail extends GdnBaseEntity {
   }
 
 
+=======
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
   public void setContent(byte[] content) {
     this.content = content;
   }
 
-
-  public void setIdCandidate(Candidate idCandidate) {
-    this.candidate = idCandidate;
+  public void setId(String id) {
+    this.id = id;
   }
-
 }

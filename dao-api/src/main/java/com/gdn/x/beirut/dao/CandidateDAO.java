@@ -1,5 +1,6 @@
 package com.gdn.x.beirut.dao;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,19 +8,22 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gdn.x.beirut.entities.Candidate;
 
-
 public interface CandidateDAO extends JpaRepository<Candidate, String> {
+
+
   List<Candidate> findByCreatedDateBetween(Date start, Date end);
 
-  List<Candidate> findByEmailaddress(String emailaddress);
+  List<Candidate> findByEmailAddress(String emailAddress);
 
-  List<Candidate> findByFirstname(String firstname);
+  List<Candidate> findByFirstName(String firstName);
 
-  List<Candidate> findByFirstnameLike(String firstname);
+  List<Candidate> findByFirstNameLike(String firstName);
 
-  List<Candidate> findByLastname(String lastname);
+  List<Candidate> findByLastName(String lastName);
 
-  List<Candidate> findByLastnameLike(String lastname);
+  List<Candidate> findByLastNameLike(String lastName);
 
-  List<Candidate> findByPhonenumber(String phonenumber);
+  List<Candidate> findByPhoneNumber(String phoneNumber);
+
+  List<Candidate> findByPhoneNumberLike(String phoneNumber);
 }
