@@ -12,9 +12,6 @@ import javax.persistence.Table;
 
 import com.gdn.common.base.entity.GdnBaseEntity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 @Entity
 @Table(name = Position.TABLE_NAME)
 public class Position extends GdnBaseEntity {
@@ -36,12 +33,8 @@ public class Position extends GdnBaseEntity {
     this.candidatePositions.add(candpos);
   }
 
-  public void addCandidatePosition(CandidatePosition candpos) {
-    this.candidatePosition.add(candpos);
-  }
-
   public Set<CandidatePosition> getCandidatePosition() {
-    return candidatePosition;
+    return candidatePositions;
   }
 
   public Set<CandidatePosition> getCandidatePositions() {

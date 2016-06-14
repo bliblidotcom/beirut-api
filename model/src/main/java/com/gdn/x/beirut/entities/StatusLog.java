@@ -1,14 +1,13 @@
 package com.gdn.x.beirut.entities;
 
-import com.gdn.common.base.entity.GdnBaseEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import com.gdn.common.base.entity.GdnBaseEntity;
 
 
 @Entity
@@ -27,15 +26,22 @@ public class StatusLog extends GdnBaseEntity {
   @JoinColumn(name = COLUMN_CANDIDATE_POSITION_ID)
   private CandidatePosition candidatePosition;
 
+  @Column(name = "oldStatus")
+  private Status oldStatus;
+
+
+  @Column(name = "newStatus")
+  private Status newStatus;
+
   public StatusLog() {
     // nothing to do here
   }
-
 
   public StatusLog(CandidatePosition candidatePosition, Status status) {
     this.candidatePosition = candidatePosition;
     this.status = status;
   }
+
 
   public CandidatePosition getCandidatePosition() {
     return candidatePosition;
@@ -50,7 +56,6 @@ public class StatusLog extends GdnBaseEntity {
     return result;
   }
 
-
   public void setCandidatePosition(CandidatePosition candidatePostition) {
     this.candidatePosition = candidatePostition;
   }
@@ -59,9 +64,3 @@ public class StatusLog extends GdnBaseEntity {
     this.status = newStatus;
   }
 }
-
-@Column(name = "oldStatus")
-  private Status oldStatus;
-
-@Column(name = "newStatus")
-  private Status newStatus;
