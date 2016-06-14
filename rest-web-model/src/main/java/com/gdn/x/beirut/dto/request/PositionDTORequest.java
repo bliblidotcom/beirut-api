@@ -15,6 +15,7 @@ public class PositionDTORequest extends BaseRequest {
     return title;
   }
 
+
   public void setId(String id) {
     this.id = id;
   }

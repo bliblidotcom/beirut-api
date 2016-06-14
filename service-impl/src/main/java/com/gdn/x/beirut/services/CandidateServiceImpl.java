@@ -1,15 +1,7 @@
 package com.gdn.x.beirut.services;
 
-import com.gdn.common.enums.ErrorCategory;
-import com.gdn.common.exception.ApplicationException;
-import com.gdn.x.beirut.dao.CandidateDAO;
-import com.gdn.x.beirut.dao.PositionDAO;
-import com.gdn.x.beirut.entities.Candidate;
-import com.gdn.x.beirut.entities.CandidateDetail;
-import com.gdn.x.beirut.entities.CandidatePosition;
-import com.gdn.x.beirut.entities.Position;
-import com.gdn.x.beirut.entities.Status;
-import com.gdn.x.beirut.entities.StatusLog;
+import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
@@ -20,8 +12,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import com.gdn.common.enums.ErrorCategory;
+import com.gdn.common.exception.ApplicationException;
+import com.gdn.x.beirut.dao.CandidateDAO;
+import com.gdn.x.beirut.dao.PositionDAO;
+import com.gdn.x.beirut.entities.Candidate;
+import com.gdn.x.beirut.entities.CandidateDetail;
+import com.gdn.x.beirut.entities.CandidatePosition;
+import com.gdn.x.beirut.entities.Position;
+import com.gdn.x.beirut.entities.Status;
+import com.gdn.x.beirut.entities.StatusLog;
 
 @Service(value = "candidateService")
 @Transactional(readOnly = true)
@@ -87,15 +87,15 @@ public class CandidateServiceImpl implements CandidateService {
     }
   }
 
+  public CandidateDAO getCandidateDAO() {
+    return candidateDAO;
+  }
+
   @Override
   public CandidateDetail getCandidateDetail(String id) throws Exception {
     Candidate candidate = getCandidate(id);
     Hibernate.initialize(candidate.getCandidateDetail());
     return candidate.getCandidateDetail();
-  }
-
-  public CandidateDAO getCandidateDAO() {
-    return candidateDAO;
   }
 
   public PositionDAO getPositionDAO() {
@@ -168,13 +168,16 @@ public class CandidateServiceImpl implements CandidateService {
 
   @Override
   @Transactional(readOnly = false)
-  public void updateCandidateStatus(Candidate candidate, Position position, Status status) throws Exception {
+  public void updateCandidateStatus(Candidate candidate, Position position, Status status)
+      throws Exception {
     Candidate existingCandidate = getCandidate(candidate.getId());
     Position existingPosition = positionDAO.findOne(position.getId());
     Hibernate.initialize(existingCandidate.getCandidatePositions());
-    existingCandidate.getCandidatePositions().stream().filter(candidatePosition -> candidatePosition.getPosition().equals(existingPosition)).forEach(candidatePosition -> {
-      candidatePosition.getStatusLogs().add(new StatusLog(candidatePosition, status));
-    });
+    existingCandidate.getCandidatePositions().stream()
+        .filter(candidatePosition -> candidatePosition.getPosition().equals(existingPosition))
+        .forEach(candidatePosition -> {
+          candidatePosition.getStatusLogs().add(new StatusLog(candidatePosition, status));
+        });
     candidateDAO.save(existingCandidate);
   }
 

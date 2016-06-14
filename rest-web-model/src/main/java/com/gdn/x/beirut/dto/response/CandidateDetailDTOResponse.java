@@ -1,5 +1,6 @@
 package com.gdn.x.beirut.dto.response;
 
+
 import com.gdn.common.web.base.BaseResponse;
 
 public class CandidateDetailDTOResponse extends BaseResponse {

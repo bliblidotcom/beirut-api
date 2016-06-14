@@ -59,5 +59,4 @@ public class CandidateDTOResponse extends BaseResponse {
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-
 }

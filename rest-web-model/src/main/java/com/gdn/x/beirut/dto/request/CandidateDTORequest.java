@@ -4,6 +4,7 @@ import com.gdn.common.web.base.BaseRequest;
 
 public class CandidateDTORequest extends BaseRequest {
 
+
   private CandidateDetailDTORequest candidateDetail;
   private String emailAddress;
   private String firstName;
@@ -49,5 +50,4 @@ public class CandidateDTORequest extends BaseRequest {
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
-
 }
