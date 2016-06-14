@@ -1,6 +1,11 @@
 package com.gdn.x.beirut.dao;
 
+<<<<<<< HEAD
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+=======
 import com.gdn.x.beirut.entities.Position;
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +43,23 @@ public class PositionDAOTest {
   @Autowired
   private PositionDAO positionDao;
 
+  @Test
+  public void findById(){
+    this.position1.setMarkForDelete(true);
+    assertEquals(this.positionDAO.findByIdAndMarkForDelete(this.position1.getId(), false), null);
+  }
+
   @Before
+<<<<<<< HEAD
+  public void initialize(){
+    this.position1= new Position("12");
+    this.position2= new Position("12");
+    this.position1.setTitle("Nanami");
+    this.position2.setTitle("Budi");
+    this.position1.setCreatedBy("Aderai");
+    this.positionDAO.save(this.position1);
+  }
+=======
   public void initialize() {
     positions = new ArrayList<Position>();
     for (int i = 1; i <= 15; i++) {
@@ -47,6 +68,7 @@ public class PositionDAOTest {
       positionForStore1.setCreatedBy(AUTHOR);
       positionForStore1.setStoreId(STORE_ID_1);
       positions.add(positionForStore1);
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 
       Position positionForStore2 = new Position();
       positionForStore2.setTitle(POSITION_TITLE_PREFIX + i);

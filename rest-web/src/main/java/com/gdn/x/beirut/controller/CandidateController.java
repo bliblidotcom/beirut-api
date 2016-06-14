@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<<HEAD
+import com.gdn.common.web.wrapper.response.GdnRestSingleResponse;
+import com.gdn.x.beirut.dto.request.CandidateDTORequest;
+import com.gdn.x.beirut.dto.response.CandidateDTOResponse;
+import com.gdn.x.beirut.entities.Candidate;import com.gdn.x.beirut.entities.CandidateDetail;=======
 import com.gdn.common.web.wrapper.response.GdnBaseRestResponse;
 import com.gdn.common.web.wrapper.response.GdnRestListResponse;
 import com.gdn.common.web.wrapper.response.GdnRestSingleResponse;
 import com.gdn.common.web.wrapper.response.PageMetaData;
 import com.gdn.x.beirut.dto.request.CandidateDTORequest;
-import com.gdn.x.beirut.dto.response.CandidateDTOResponse;
-import com.gdn.x.beirut.entities.Candidate;
+import com.gdn.x.beirut.dto.response.CandidateDTOResponse;import com.gdn.x.beirut.entities.Candidate;>>>>>>>refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 import com.gdn.x.beirut.services.CandidateService;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;

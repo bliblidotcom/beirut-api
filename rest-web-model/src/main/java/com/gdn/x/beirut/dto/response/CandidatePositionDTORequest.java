@@ -1,9 +1,7 @@
 package com.gdn.x.beirut.dto.response;
 
-
-import com.gdn.common.web.base.BaseResponse;
-
-public class PositionDTOResponse extends BaseResponse {
+public class CandidatePositionDTORequest {
+  //untuk Position sementara.
   private String title;
 
   public String getTitle() {

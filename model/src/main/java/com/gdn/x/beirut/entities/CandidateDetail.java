@@ -1,7 +1,5 @@
 package com.gdn.x.beirut.entities;
 
-import com.gdn.common.base.entity.GdnBaseEntity;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -11,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.gdn.common.base.entity.GdnBaseEntity;
 
 @Entity
 @Table(name = CandidateDetail.TABLE_NAME)
@@ -25,18 +25,20 @@ public class CandidateDetail implements Serializable {
   @Column(name = CandidateDetail.COLUMN_CONTENT)
   private byte[] content;
 
-  public CandidateDetail() {
-    //nothing to do here
-  }
-
-  public CandidateDetail(Candidate candidate) {
-    this.candidate = candidate;
-  }
-
   @MapsId
   @OneToOne
   @JoinColumn(name = GdnBaseEntity.ID)
   private Candidate candidate;
+
+  public CandidateDetail() {
+    // nothing to do here
+  }
+
+
+
+  public CandidateDetail(Candidate candidate) {
+    this.candidate = candidate;
+  }
 
   public Candidate getCandidate() {
     return candidate;
@@ -53,6 +55,7 @@ public class CandidateDetail implements Serializable {
   public void setCandidate(Candidate candidate) {
     this.candidate = candidate;
   }
+
 
   public void setContent(byte[] content) {
     this.content = content;

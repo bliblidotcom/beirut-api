@@ -13,11 +13,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+<<<<<<< HEAD
+import com.gdn.common.web.wrapper.response.GdnRestListResponse;
+import com.gdn.common.web.wrapper.response.GdnRestSingleResponse;
+import com.gdn.common.web.wrapper.response.PageMetaData;
+import com.gdn.x.beirut.dto.request.CandidatePositionDTORequest;
+import com.gdn.x.beirut.dto.request.PositionDTORequest;
+import com.gdn.x.beirut.dto.response.PositionDTOResponse;
+import com.gdn.x.beirut.entities.CandidatePosition;
+=======
 import com.gdn.common.web.wrapper.response.GdnBaseRestResponse;
 import com.gdn.common.web.wrapper.response.GdnRestListResponse;
 import com.gdn.common.web.wrapper.response.PageMetaData;
 import com.gdn.x.beirut.dto.request.PositionDTORequest;
 import com.gdn.x.beirut.dto.response.PositionDTOResponse;
+>>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 import com.gdn.x.beirut.entities.Position;
 import com.gdn.x.beirut.services.PositionService;
 import com.wordnik.swagger.annotations.Api;
@@ -125,4 +135,3 @@ public class PositionController {
         .updatePositionTitle(positionDTORequest.getId(), positionDTORequest.getTitle()));
   }
 }
-

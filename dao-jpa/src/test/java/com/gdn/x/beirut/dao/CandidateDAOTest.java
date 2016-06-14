@@ -31,6 +31,7 @@ public class CandidateDAOTest {
 
   @Before
   public void initialize() {
+
     for (int i = 0; i < 10; i++) {
       Candidate newCandidate = new Candidate();
       newCandidate.setEmailAddress("egaprianto" + i + "@asd.com");
