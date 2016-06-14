@@ -8,10 +8,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.GregorianCalendar;
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 import java.util.List;
 
 import org.junit.After;
@@ -55,54 +52,30 @@ public class CandidateServiceTest {
 
   private List<Candidate> candidates;
 
-<<<<<<< HEAD
-=======
   private List<Candidate> candidateRanges;
 
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
   @Before
   public void initialize() {
     initMocks(this);
     this.candidate = new Candidate(STORE_ID);
-<<<<<<< HEAD
-    this.candidate.setFirstname(FIRST_NAME);
-    this.candidate.setLastname(LAST_NAME);
-
-    this.markForDeleteCandidate = new Candidate(STORE_ID);
-    this.markForDeleteCandidate.setFirstname(FIRST_NAME);
-    this.markForDeleteCandidate.setLastname(LAST_NAME);
-=======
     this.candidate.setFirstName(FIRST_NAME);
     this.candidate.setLastName(LAST_NAME);
 
     this.markForDeleteCandidate = new Candidate(STORE_ID);
     this.markForDeleteCandidate.setFirstName(FIRST_NAME);
     this.markForDeleteCandidate.setLastName(LAST_NAME);
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
     this.markForDeleteCandidate.setMarkForDelete(true);
 
     this.candidateDetail = new CandidateDetail(STORE_ID);
 
     this.candidateWithDetail = new Candidate(STORE_ID);
-<<<<<<< HEAD
-    this.candidateWithDetail.setFirstname(FIRST_NAME);
-    this.candidateWithDetail.setLastname(LAST_NAME);
-    this.candidateWithDetail.setCandidatedetail(this.candidateDetail);
-=======
     this.candidateWithDetail.setFirstName(FIRST_NAME);
     this.candidateWithDetail.setLastName(LAST_NAME);
     this.candidateWithDetail.setCandidateDetail(this.candidateDetail);
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
 
     this.candidates = new ArrayList<Candidate>();
     this.candidates.add(this.candidate);
 
-<<<<<<< HEAD
-    when(this.candidateDao.findByFirstnameLike(LIKE_FIRST_NAME)).thenReturn(this.candidates);
-    when(this.candidateDao.findByLastnameLike(LIKE_LAST_NAME)).thenReturn(this.candidates);
-    when(this.candidateDao.findOne(ID)).thenReturn(this.candidate);
-    when(this.candidateDao.save(this.candidate)).thenReturn(this.candidate);
-=======
     when(this.candidateDao.findByFirstNameLike(LIKE_FIRST_NAME)).thenReturn(this.candidates);
     when(this.candidateDao.findByLastNameLike(LIKE_LAST_NAME)).thenReturn(this.candidates);
     when(this.candidateDao.findOne(ID)).thenReturn(this.candidate);
@@ -136,7 +109,6 @@ public class CandidateServiceTest {
     candidateRanges.add(newCandidate);
     when(this.candidateDao.findByCreatedDateBetween(start.getTime(), end.getTime()))
         .thenReturn(candidates);
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
   }
 
   @After
@@ -195,33 +167,11 @@ public class CandidateServiceTest {
     // Black Box Test
     assertTrue(this.candidateDao.save(this.candidate).equals(this.candidate));
     // White Box Test
-<<<<<<< HEAD
-    this.candidateService.save(this.candidate);
-=======
     this.candidateService.createNew(this.candidate);
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
     verify(this.candidateDao, times(2)).save(this.candidate);
   }
 
   @Test
-<<<<<<< HEAD
-  public void testSearchByFirstname() {
-    // Black Box Test
-    Assert
-        .assertTrue(this.candidateDao.findByFirstnameLike(LIKE_FIRST_NAME).equals(this.candidates));
-    // White Box Test
-    this.candidateService.searchByFirstname(LIKE_FIRST_NAME);
-    verify(this.candidateDao, times(2)).findByFirstnameLike(LIKE_FIRST_NAME);
-  }
-
-  @Test
-  public void testSearchByLastname() {
-    // Black Box Test
-    Assert.assertTrue(this.candidateDao.findByLastnameLike(LIKE_LAST_NAME).equals(this.candidates));
-    // White Box Test (CEK PEMANGGILAN)
-    this.candidateService.searchByLastname(LIKE_LAST_NAME);
-    verify(this.candidateDao, times(2)).findByLastnameLike(LIKE_LAST_NAME);
-=======
   public void testSearchByCreatedDateBetween() {
     GregorianCalendar start = new GregorianCalendar(2016, 1, 1);
     GregorianCalendar end = new GregorianCalendar(2016, 6, 1);
@@ -300,7 +250,6 @@ public class CandidateServiceTest {
     Assert.assertTrue(result.equals(res));
     // White Box Test
     verify(this.candidateDao, times(1)).findByPhoneNumberLike("123456789");
->>>>>>> refs/remotes/bliblidotcom/revisi-1-entity-with-jpa-with-dao-test
   }
 
   @Test
