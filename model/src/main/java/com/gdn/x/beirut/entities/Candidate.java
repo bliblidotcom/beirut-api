@@ -1,84 +1,116 @@
-
 package com.gdn.x.beirut.entities;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.gdn.common.base.entity.GdnBaseEntity;
 
 @Entity
-@Table(name = "Candidate")
+@Table(name = Candidate.TABLE_NAME, uniqueConstraints = {
+    @UniqueConstraint(columnNames = {Candidate.COLUMN_EMAIL_ADDRESS, Candidate.STORE_ID})})
 public class Candidate extends GdnBaseEntity {
 
-  public static final String EMAIL_ADDRESS = "emailaddress";
+  private static final long serialVersionUID = -2726880350978769752L;
+  public static final String TABLE_NAME = "candidate";
+  public static final String COLUMN_EMAIL_ADDRESS = "email_address";
+  public static final String COLUMN_FIRST_NAME = "first_name";
+  public static final String COLUMN_LAST_NAME = "last_name";
+  public static final String COLUMN_PHONE_NUMBER = "phone_number";
 
-  public static final String FIRST_NAME = "firstname";
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "candidate")
+  private CandidateDetail candidateDetail;
 
-  public static final String LAST_NAME = "lastname";
+  @Column(name = Candidate.COLUMN_EMAIL_ADDRESS)
+  private String emailAddress;
 
-  public static final String PHONE_NUMBER = "phonenumber";
+  @Column(name = Candidate.COLUMN_FIRST_NAME)
+  private String firstName;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "candidate")
-  private CandidateDetail candidatedetail;
+  @Column(name = Candidate.COLUMN_LAST_NAME)
+  private String lastName;
 
-  @Column(name = Candidate.EMAIL_ADDRESS)
-  private String emailaddress;
+  @Column(name = Candidate.COLUMN_PHONE_NUMBER)
+  private String phoneNumber;
 
-  @Column(name = Candidate.FIRST_NAME)
-  private String firstname;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "candidate")
+  private List<CandidatePosition> candidatePositions = new ArrayList<CandidatePosition>();
 
-  @Column(name = Candidate.LAST_NAME)
-  private String lastname;
-
-  @Column(name = Candidate.PHONE_NUMBER)
-  private String phonenumber;
-
-  public Candidate(String STORE_ID) {
-    super();
-    this.setStoreId(STORE_ID);
+  public Candidate() {
+    // nothing to do here
+    // setId(UUID.randomUUID().toString());
   }
 
-  public CandidateDetail getCandidatedetail() {
-    return this.candidatedetail;
+  public CandidateDetail getCandidateDetail() {
+    return candidateDetail;
   }
 
-  public String getEmailaddress() {
-    return this.emailaddress;
+  public List<CandidatePosition> getCandidatePositions() {
+    return candidatePositions;
   }
 
-  public String getFirstname() {
-    return this.firstname;
+  public String getEmailAddress() {
+    return emailAddress;
   }
 
-  public String getLastname() {
-    return this.lastname;
+
+  public String getFirstName() {
+    return firstName;
   }
 
-  public String getPhonenumber() {
-    return this.phonenumber;
+  public String getLastName() {
+    return lastName;
   }
 
-  public void setCandidatedetail(CandidateDetail candidatedetail) {
-    this.candidatedetail = candidatedetail;
+  public String getPhoneNumber() {
+    return phoneNumber;
   }
 
-  public void setEmailaddress(String emailaddress) {
-    this.emailaddress = emailaddress;
+  public void setCandidateDetail(CandidateDetail candidateDetail) {
+    this.candidateDetail = candidateDetail;
   }
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
+  public void setCandidatePositions(List<CandidatePosition> candidatePositions) {
+    this.candidatePositions = candidatePositions;
   }
 
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
+
+  public void setEmailAddress(String emailAddress) {
+    this.emailAddress = emailAddress;
   }
 
-  public void setPhonenumber(String phonenumber) {
-    this.phonenumber = phonenumber;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  // public String toStringz() {
+  // String res = "Candidate [candidateDetail=" + candidateDetail + ", emailAddress=" + emailAddress
+  // + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
+  // + ", candidatePositions=[";
+  // if (this.candidatePositions != null && this.candidatePositions.size() > 0) {
+  // for (CandidatePosition candidatePosition : candidatePositions) {
+  // res += candidatePosition.toStringz();
+  // }
+  // }
+  // String end = "], getId()=" + getId() + ", getStoreId()=" + getStoreId() + "]";
+  // return res + end;
+  // }
+
+
 }
