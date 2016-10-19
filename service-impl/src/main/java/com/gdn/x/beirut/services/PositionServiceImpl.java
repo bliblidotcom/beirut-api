@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +21,10 @@ import com.gdn.common.exception.ApplicationException;
 import com.gdn.x.beirut.dao.PositionDAO;
 import com.gdn.x.beirut.domain.event.model.DomainEventName;
 import com.gdn.x.beirut.domain.event.model.PositionMarkForDelete;
+import com.gdn.x.beirut.domain.event.model.PositionUpdateInformation;
 import com.gdn.x.beirut.entities.CandidatePosition;
 import com.gdn.x.beirut.entities.Position;
+import com.gdn.x.beirut.entities.PositionDescription;
 
 @Service(value = "positionService")
 @Transactional(readOnly = true)
@@ -48,6 +51,10 @@ public class PositionServiceImpl implements PositionService {
     return positionDAO.findByStoreId(storeId, pageable);
   }
 
+  public GdnMapper getGdnMapper() {
+    return gdnMapper;
+  }
+
   @Override
   public Position getPosition(String storeId, String positionId) throws Exception {
     Position existingPosition = getPositionDao().findByStoreIdAndId(storeId, positionId);
@@ -59,8 +66,8 @@ public class PositionServiceImpl implements PositionService {
   }
 
   @Override
-  public List<Position> getPositionByIds(List<String> positionIds) {
-    return this.positionDAO.findAll(positionIds);
+  public Position getPositionByStoreIdAndId(String storeId, String id) {
+    return this.positionDAO.findByStoreIdAndId(storeId, id);
   }
 
   @Override
@@ -76,6 +83,18 @@ public class PositionServiceImpl implements PositionService {
 
   public PositionDAO getPositionDao() {
     return this.positionDAO;
+  }
+
+  @Override
+  public PositionDescription getPositionDescriptionAndStoreId(String id, String storeId)
+      throws Exception {
+    Position position = this.getPosition(storeId, id);
+    if (position.getStoreId().equals(storeId)) {
+      Hibernate.initialize(position.getPositionDescription());
+      return position.getPositionDescription();
+    } else {
+      throw new ApplicationException(ErrorCategory.DATA_NOT_FOUND, "data not found, store id");
+    }
   }
 
   @Override
@@ -97,11 +116,10 @@ public class PositionServiceImpl implements PositionService {
   @Override
   @Transactional(readOnly = false)
   public Position insertNewPosition(Position position) {
-    for (CandidatePosition iterable_element : position.getCandidatePositions()) {
-      iterable_element.setPosition(position);
-    }
+    // for (CandidatePosition iterable_element : position.getCandidatePositions()) {
+    // iterable_element.setPosition(position);
+    // }
     return this.getPositionDao().save(position);
-
   }
 
   @Override
@@ -128,7 +146,7 @@ public class PositionServiceImpl implements PositionService {
       this.getPositionDao().save(positions);
       for (Position position : positions) {
         PositionMarkForDelete objectToPublish =
-            gdnMapper.deepCopy(position, PositionMarkForDelete.class);
+            getGdnMapper().deepCopy(position, PositionMarkForDelete.class);
         domainEventPublisher.publish(objectToPublish, DomainEventName.POSITION_MARK_FOR_DELETE,
             PositionMarkForDelete.class);
       }
@@ -137,17 +155,35 @@ public class PositionServiceImpl implements PositionService {
     }
   }
 
+  public void setGdnMapper(GdnMapper gdnMapper) {
+    this.gdnMapper = gdnMapper;
+  }
+
   @Override
   @Transactional(readOnly = false)
-  public boolean updatePositionTitle(String storeId, String id, String title) throws Exception {
-    Position posi = this.positionDAO.findOne(id);
+  public boolean updatePositionInformation(Position position) throws Exception {
+    Position posi = this.positionDAO.findOne(position.getId());
     if (posi != null) {
-      if (!posi.getStoreId().equals(storeId)) {
+      if (!posi.getStoreId().equals(position.getStoreId())) {
         throw new ApplicationException(ErrorCategory.DATA_NOT_FOUND,
-            "position exist but storeId not match");
+            "position exist but storeId not match data StoreId:" + posi.getStoreId()
+                + " input storeId: " + position.getStoreId());
       }
-      posi.setTitle(title);
+      posi.setTitle(position.getTitle());
+      posi.setJobDivision(position.getJobDivision());
+      posi.setJobType(position.getJobType());
       this.positionDAO.save(posi);
+      PositionUpdateInformation objectToPublish = new PositionUpdateInformation();
+      BeanUtils.copyProperties(position, objectToPublish, "candidatePositions",
+          "positionDescription");
+      objectToPublish.setId(position.getId());
+      objectToPublish.setStoreId(position.getStoreId());
+      objectToPublish.setTitle(position.getTitle());
+      objectToPublish.setJobDivision(position.getJobDivision());
+      objectToPublish.setJobType(position.getJobType());
+      System.out.println("TES COBAIN=====" + objectToPublish.toString());
+      domainEventPublisher.publish(objectToPublish, DomainEventName.POSITION_UPDATE_INFORMATION,
+          PositionUpdateInformation.class);
       return true;
     } else {
       return false;
